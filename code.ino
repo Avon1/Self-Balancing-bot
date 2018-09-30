@@ -1,26 +1,28 @@
 void setup() {
-  // put your setup code here, to run once:
-pinMode(D4,OUTPUT);
-pinMode(D3,INPUT);
-Serial.begin(9600);
+  pinMode(8, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(9, INPUT);
+  digitalWrite(11, HIGH);
+  digitalWrite(8, LOW);
+  Serial.begin(9600);
+}
+double trig(int trig, int echo) {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  int duration = pulseIn(echo, HIGH);
+  double distance = duration * 0.034 / 2;
+//  delay(100);
+  return distance;
+}
+void loop() {
+  double x = 0 ;
+  for (int i = 0 ; i < 5 ; i ++) {
+    x = x + trig (10, 9);
+  }
+  Serial.println(x / 5);
 }
 
-void loop() {
-//trig pin  D4
-//echo pin  D3
-  // put your main code here, to run repeatedly:
-digitalWrite(D4, LOW);
-delayMicroseconds(2);
-// Sets the trigPin on HIGH state for 10 micro seconds
-digitalWrite(D4, HIGH);
-delayMicroseconds(10);
-digitalWrite(D4, LOW);
-// Reads the echoPin, returns the sound wave travel time in microseconds
-int duration = pulseIn(D3, HIGH);
-// Calculating the distance
-double distance= duration*0.034/2;
-// Prints the distance on the Serial Monitor
-Serial.print("Distance: ");
-Serial.println(distance);
-delay(150);
-}
