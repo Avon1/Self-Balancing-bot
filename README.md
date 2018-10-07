@@ -1,3 +1,3 @@
-# Weather-Project
-THis project belongs to Avon Supun Kisal
-Copy right protected
+# Self-Balancing Robot
+This project belongs to Avon Supun Kisal
+Copyright protected
