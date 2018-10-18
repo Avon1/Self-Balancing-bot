@@ -4,7 +4,7 @@
 #include <ESP8266WebServer.h>
 #include "index.h"
 /*The hotspot*/
-const char *ssid = "ESP8266";
+const char *ssid = "Self Balancing Bot";
 const char *password = "12345678";
 
 ESP8266WebServer server(80);
@@ -15,8 +15,7 @@ void handleRoot() {
   server.send(200, "text/html", s);
 }
 void handleNotFound() {
-  String s = MAIN_page; //Read HTML contents
-  server.send(200, "text/html", s);
+  
 }
 void post() {
   String data = server.arg("updown");
@@ -24,14 +23,20 @@ void post() {
   if (pwmValue > 0) {
     analogWrite(D6, LOW);
     analogWrite(D5, pwmValue);
+    analogWrite(D8, LOW);
+    analogWrite(D7, pwmValue);
   }
   else if (pwmValue < 0) {
     analogWrite(D5, LOW);
-    analogWrite(D6, (pwmValue*-1));
+    analogWrite(D6, (pwmValue * -1));
+    analogWrite(D7, LOW);
+    analogWrite(D8, (pwmValue * -1));
   }
   else {
     analogWrite(D5, LOW);
     analogWrite(D6, LOW);
+    analogWrite(D7, LOW);
+    analogWrite(D8, LOW);
   }
   Serial.println(pwmValue);
   server.send(200, "text/plain", data);
@@ -39,6 +44,8 @@ void post() {
 void setup() {
   pinMode(D5, OUTPUT);
   pinMode(D6, OUTPUT);
+  pinMode(D7, OUTPUT);
+  pinMode(D8, OUTPUT);
   delay(1000);
   Serial.begin(115200);
   Serial.println();
